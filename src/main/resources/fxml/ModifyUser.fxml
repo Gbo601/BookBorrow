@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="550.0" prefWidth="300.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.Gbo601.GUI.Controller.ModifyUserController">
+   <children>
+      <Label layoutX="28.0" layoutY="38.0" text="ID" />
+      <TextField fx:id="textFieldModifyUserID" layoutX="70.0" layoutY="33.0" style="-fx-border-color: #3F2B63;" />
+      <Label layoutX="27.0" layoutY="83.0" text="密码" />
+      <TextField fx:id="textFieldModifyUserPassword" layoutX="69.0" layoutY="78.0" style="-fx-border-color: #3F2B63;" />
+      <Label layoutX="27.0" layoutY="304.0" text="邮箱" />
+      <TextField fx:id="textFieldModifyUserEmail" layoutX="69.0" layoutY="299.0" style="-fx-border-color: #3F2B63;" />
+      <Label layoutX="27.0" layoutY="127.0" text="身份" />
+      <TextField fx:id="textFieldModifyUserIdentity" layoutX="69.0" layoutY="122.0" style="-fx-border-color: #3F2B63;" />
+      <Label layoutX="27.0" layoutY="350.0" text="手机" />
+      <TextField fx:id="textFieldModifyUserPhone" layoutX="69.0" layoutY="345.0" style="-fx-border-color: #3F2B63;" styleClass="scroll-bar" stylesheets="@../css/style.css" />
+      <JFXButton fx:id="btnModifyDefine" layoutX="43.0" layoutY="463.0" onAction="#ModifyDefine" prefHeight="30.0" prefWidth="76.0" style="-fx-background-radius: 30; -fx-background-color: #7156DD;" text="确定" textFill="WHITE" />
+      <JFXButton fx:id="btnModifyCancle" layoutX="181.0" layoutY="463.0" onAction="#ModifyCancle" prefHeight="30.0" prefWidth="76.0" style="-fx-background-color: #7156DD; -fx-background-radius: 30;" text="取消" textFill="#f5f5f5" />
+      <Label layoutX="20.0" layoutY="172.0" text="用户名" />
+      <TextField fx:id="textFieldModifyUserName" layoutX="69.0" layoutY="166.0" style="-fx-border-color: #3F2B63;" />
+      <Label layoutX="27.0" layoutY="214.0" text="年龄" />
+      <TextField fx:id="textFieldModifyUserAge" layoutX="69.0" layoutY="209.0" style="-fx-border-color: #3F2B63;" />
+      <Label layoutX="27.0" layoutY="257.0" text="性别" />
+      <TextField fx:id="textFieldModifyUserSex" layoutX="69.0" layoutY="252.0" style="-fx-border-color: #3F2B63;" />
+   </children>
+</Pane>

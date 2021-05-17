@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Main-Class: com.Gbo601.GUI.Start
+Class-Path: jfoenix-8.0.10.jar c3p0-0.9.1.2.jar commons-beanutils-1.8.0.
+ jar commons-dbcp-1.4.jar commons-dbutils-1.6.jar commons-logging-1.1.1.
+ jar commons-pool-1.5.5.jar druid-1.1.10.jar mysql-connector-java-8.0.24
+ .jar AnimateFX-1.2.1.jar
+

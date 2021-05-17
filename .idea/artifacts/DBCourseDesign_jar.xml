@@ -1,0 +1,13 @@
+<component name="ArtifactManager">
+  <artifact name="DBCourseDesign:jar">
+    <output-path>$PROJECT_DIR$/out/artifacts/DBCourseDesign_jar</output-path>
+    <root id="root">
+      <element id="archive" name="DBCourseDesign.jar">
+        <element id="module-output" name="DBCourseDesign" />
+      </element>
+      <element id="library" level="project" name="Maven: com.jfoenix:jfoenix:8.0.10" />
+      <element id="library" level="project" name="c3p0-0.9.1.2" />
+      <element id="library" level="project" name="Maven: io.github.typhon0:AnimateFX:1.2.1" />
+    </root>
+  </artifact>
+</component>

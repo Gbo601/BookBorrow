@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import com.jfoenix.controls.JFXButton?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.Pane?>
+
+<Pane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="338.0" prefWidth="300.0" style="-fx-background-color: white;" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.Gbo601.GUI.Controller.ModifyBookBorrowController">
+   <children>
+      <Label layoutX="28.0" layoutY="39.0" text="id" />
+      <TextField fx:id="textFieldModifyBookBorrowId" layoutX="70.0" layoutY="33.0" style="-fx-border-color: #3F2B63;" />
+      <Label layoutX="12.0" layoutY="84.0" text="用户ID" />
+      <TextField fx:id="textFieldModifyBookBorrowUserId" layoutX="69.0" layoutY="78.0" style="-fx-border-color: #3F2B63;" />
+      <Label layoutX="12.0" layoutY="128.0" text="书籍ID" />
+      <TextField fx:id="textFieldModifyBookBorrowBookId" layoutX="69.0" layoutY="122.0" style="-fx-border-color: #3F2B63;" />
+      <JFXButton fx:id="btnBookBorrowModifyDefine" layoutX="44.0" layoutY="291.0" onAction="#BookBorrowModifyDefine" prefHeight="30.0" prefWidth="76.0" style="-fx-background-radius: 30; -fx-background-color: #7156DD;" text="确定" textFill="WHITE" />
+      <JFXButton fx:id="btnBookBorrowModifyCancle" layoutX="171.0" layoutY="291.0" onAction="#BookBorrowModifyCancle" prefHeight="30.0" prefWidth="76.0" style="-fx-background-color: #7156DD; -fx-background-radius: 30;" text="取消" textFill="#f5f5f5" />
+      <Label layoutX="5.0" layoutY="172.0" text="借书时间" />
+      <TextField fx:id="textFieldModifyBookBorrowBorrowTime" layoutX="69.0" layoutY="166.0" style="-fx-border-color: #3F2B63;" />
+      <Label layoutX="5.0" layoutY="215.0" text="归还时间" />
+      <TextField fx:id="textFieldModifyBookBorrowReturnTime" layoutX="69.0" layoutY="209.0" style="-fx-border-color: #3F2B63;" />
+   </children>
+</Pane>
