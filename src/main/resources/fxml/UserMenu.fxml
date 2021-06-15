@@ -8,14 +8,17 @@
 <?import javafx.geometry.Insets?>
 <?import javafx.scene.control.Button?>
 <?import javafx.scene.control.Label?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.control.Separator?>
 <?import javafx.scene.control.TextField?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.RowConstraints?>
 <?import javafx.scene.layout.StackPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
@@ -45,16 +48,11 @@
             </JFXButton>
          </children>
       </Pane>
-      <Pane layoutY="40.0" prefHeight="95.0" prefWidth="1280.0" style="-fx-background-color: #7156DD;" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="40.0">
+      <Pane fx:id="paneTop" layoutY="40.0" prefHeight="95.0" prefWidth="1280.0" style="-fx-background-color: #7156DD;" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="40.0">
          <children>
-            <Label fx:id="lblTitle" layoutX="327.0" layoutY="6.0" text="个人信息">
+            <Label fx:id="lblTitle" layoutX="205.0" layoutY="14.0" prefHeight="61.0" prefWidth="502.0">
                <font>
-                  <Font size="41.0" />
-               </font>
-            </Label>
-            <Label fx:id="lblText" layoutX="452.0" layoutY="59.0" text="/图书借阅">
-               <font>
-                  <Font size="24.0" />
+                  <Font size="48.0" />
                </font>
             </Label>
          </children>
@@ -63,61 +61,49 @@
          <children>
             <Pane fx:id="panePersonInfo" prefHeight="541.0" prefWidth="1280.0" style="-fx-background-color: white;" visible="false">
                <children>
-                  <VBox layoutX="545.0" layoutY="17.0" prefHeight="501.0" prefWidth="352.0" style="-fx-background-color: #A08EE8;" stylesheets="@../css/styleWonder.css">
+                  <VBox fx:id="paneInfo" layoutX="545.0" layoutY="17.0" prefHeight="551.0" prefWidth="352.0" style="-fx-background-color: #A08EE8;" stylesheets="@../css/styleWonder.css">
                      <children>
                         <Pane prefHeight="81.0" prefWidth="352.0">
                            <children>
-                              <ImageView fitHeight="93.0" fitWidth="89.0" layoutX="132.0" pickOnBounds="true" preserveRatio="true">
+                              <ImageView fitHeight="64.0" fitWidth="64.0" layoutX="144.0" layoutY="9.0" pickOnBounds="true" preserveRatio="true">
                                  <image>
-                                    <Image url="@../image/icons8_male_user_96px.png" />
+                                    <Image url="@../image/icons8_user_64px.png" />
                                  </image>
                               </ImageView>
                            </children>
                         </Pane>
                         <Pane prefHeight="414.0" prefWidth="352.0">
                            <children>
-                              <Label fx:id="lblUserName" layoutX="52.0" layoutY="63.0" prefHeight="55.0" prefWidth="300.0" text="姓名：">
+                              <Label fx:id="lblUserName" layoutX="14.0" layoutY="69.0" prefHeight="55.0" prefWidth="300.0" text="姓名：">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="lblUserId" layoutX="52.0" layoutY="14.0" prefHeight="55.0" prefWidth="300.0" text="账号：">
+                              <Label fx:id="lblUserId" layoutX="14.0" layoutY="14.0" prefHeight="55.0" prefWidth="300.0" text="账号：">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="lblUserAge" layoutX="52.0" layoutY="118.0" prefHeight="55.0" prefWidth="300.0" text="年龄：">
+                              <Label fx:id="lblUserAge" layoutX="14.0" layoutY="118.0" prefHeight="55.0" prefWidth="300.0" text="年龄：">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="lblUserSex" layoutX="52.0" layoutY="170.0" prefHeight="55.0" prefWidth="300.0" text="性别：">
+                              <Label fx:id="lblUserSex" layoutX="14.0" layoutY="173.0" prefHeight="55.0" prefWidth="300.0" text="性别：">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="lblUserEmail" layoutX="52.0" layoutY="225.0" prefHeight="55.0" prefWidth="300.0" text="邮箱：">
+                              <Label fx:id="lblUserEmail" layoutX="14.0" layoutY="222.0" prefHeight="55.0" prefWidth="300.0" text="邮箱：">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="lblUserPhone" layoutX="52.0" layoutY="280.0" prefHeight="55.0" prefWidth="300.0" text="手机号码：">
+                              <Label fx:id="lblUserPhone" layoutX="14.0" layoutY="280.0" prefHeight="55.0" prefWidth="300.0" text="手机号码：">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
                               </Label>
-                              <JFXButton fx:id="btnModifyInfo" layoutX="52.0" layoutY="368.0" onAction="#ModifyInfo" prefHeight="46.0" prefWidth="136.0" style="-fx-background-color: #696F89;" stylesheets="@../css/styleWonder.css" text="修改信息">
-                                 <styleClass>
-                                    <String fx:value="search-button" />
-                                    <String fx:value="shadow" />
-                                 </styleClass>
-                              </JFXButton>
-                              <JFXButton fx:id="btnModifyPassword" layoutX="202.0" layoutY="368.0" onAction="#ModifyPassword" prefHeight="46.0" prefWidth="106.0" style="-fx-background-color: #696F89;" stylesheets="@../css/styleWonder.css" text="修改密码">
-                                 <styleClass>
-                                    <String fx:value="search-button" />
-                                    <String fx:value="shadow" />
-                                 </styleClass>
-                              </JFXButton>
                               <JFXDialog prefHeight="249.0" prefWidth="352.0" />
                            </children>
                         </Pane>
@@ -127,20 +113,7 @@
                         <String fx:value="shadow" />
                      </styleClass>
                   </VBox>
-                  <HBox alignment="TOP_CENTER" layoutX="914.0" layoutY="17.0" prefHeight="501.0" prefWidth="352.0" style="-fx-background-color: #7156DD;" stylesheets="@../css/styleWonder.css">
-                     <styleClass>
-                        <String fx:value="free-delivery-card" />
-                        <String fx:value="shadow" />
-                     </styleClass>
-                     <children>
-                        <Label prefHeight="55.0" prefWidth="41.0" text="公告" textAlignment="CENTER">
-                           <font>
-                              <Font size="20.0" />
-                           </font>
-                        </Label>
-                     </children>
-                  </HBox>
-                  <VBox layoutX="244.0" layoutY="17.0" prefHeight="271.0" prefWidth="279.0" style="-fx-background-color: #DFD9F7;" stylesheets="@../css/styleWonder.css">
+                  <VBox fx:id="paneAnother" layoutX="244.0" layoutY="17.0" prefHeight="271.0" prefWidth="279.0" style="-fx-background-color: #DFD9F7;" stylesheets="@../css/styleWonder.css">
                      <styleClass>
                         <String fx:value="free-delivery-card" />
                         <String fx:value="shadow" />
@@ -148,108 +121,221 @@
                      <children>
                         <Pane prefHeight="281.0" prefWidth="279.0">
                            <children>
-                              <Label fx:id="lblUserName11" layoutX="63.0" layoutY="108.0" prefHeight="55.0" prefWidth="154.0" text="已借：">
+                              <Label fx:id="lblHaveBorrow" layoutX="63.0" layoutY="108.0" prefHeight="55.0" prefWidth="154.0" text="已借：">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="lblUserName1" layoutX="63.0" layoutY="52.0" prefHeight="55.0" prefWidth="154.0" text="余额：">
+                              <Label fx:id="lblBalance" layoutX="63.0" layoutY="52.0" prefHeight="55.0" prefWidth="154.0" text="余额：">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
                               </Label>
-                              <Label fx:id="lblUserName111" layoutX="63.0" layoutY="163.0" prefHeight="55.0" prefWidth="154.0" text="还能借：">
+                              <Label fx:id="lblCanBorrow" layoutX="63.0" layoutY="163.0" prefHeight="55.0" prefWidth="154.0" text="还能借：">
                                  <font>
                                     <Font size="20.0" />
                                  </font>
                               </Label>
                            </children>
                         </Pane>
+                     </children>
+                  </VBox>
+                  <VBox fx:id="paneModifyInfo" alignment="TOP_CENTER" layoutX="244.0" layoutY="300.0" prefHeight="271.0" prefWidth="279.0" style="-fx-background-color: #3F2B63;" stylesheets="@../css/styleWonder.css">
+                     <styleClass>
+                        <String fx:value="free-delivery-card" />
+                        <String fx:value="shadow" />
+                     </styleClass>
+                     <children>
+                        <Pane prefHeight="114.0" prefWidth="279.0">
+                           <children>
+                              <JFXButton fx:id="btnModifyInfo" layoutX="72.0" layoutY="41.0" onAction="#ModifyInfo" prefHeight="46.0" prefWidth="136.0" style="-fx-background-color: white; -fx-background-radius: 100;" text="修改信息" />
+                           </children>
+                        </Pane>
+                        <Pane prefHeight="86.0" prefWidth="279.0">
+                           <children>
+                              <JFXButton fx:id="btnModifyPassword" layoutX="72.0" layoutY="14.0" onAction="#ModifyPassword" prefHeight="46.0" prefWidth="136.0" style="-fx-background-color: white; -fx-background-radius: 60;" text="修改密码" />
+                           </children>
+                        </Pane>
+                        <Pane prefHeight="110.0" prefWidth="279.0">
+                           <children>
+                              <JFXButton fx:id="btnCharge" layoutX="72.0" layoutY="14.0" onAction="#Charge" prefHeight="46.0" prefWidth="136.0" style="-fx-background-color: white; -fx-background-radius: 60;" text="充值" />
+                           </children>
+                        </Pane>
+                     </children>
+                  </VBox>
+                  <VBox fx:id="paneAnnouncement" layoutX="919.0" layoutY="17.0" prefHeight="551.0" prefWidth="324.0" style="-fx-background-color: #F4F4F4;" stylesheets="@../css/styleWonder.css">
+                     <styleClass>
+                        <String fx:value="free-delivery-card" />
+                        <String fx:value="shadow" />
+                     </styleClass>
+                     <children>
+                        <Label alignment="CENTER" prefHeight="75.0" prefWidth="324.0" text="公告" textAlignment="CENTER">
+                           <font>
+                              <Font size="20.0" />
+                           </font>
+                        </Label>
+                        <ScrollPane prefHeight="452.0" prefWidth="324.0" styleClass="transparent" stylesheets="@../css/styleWonder.css">
+                           <content>
+                              <GridPane fx:id="gridAnnouncement" alignment="CENTER" prefHeight="0.0" prefWidth="0.0">
+                                <columnConstraints>
+                                  <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                                </columnConstraints>
+                              </GridPane>
+                           </content>
+                           <VBox.margin>
+                              <Insets left="4.0" />
+                           </VBox.margin>
+                        </ScrollPane>
                      </children>
                   </VBox>
                </children>
             </Pane>
             <Pane fx:id="paneBookCheck" prefHeight="541.0" prefWidth="1280.0" visible="false">
                <children>
-                  <VBox layoutX="14.0" layoutY="14.0" prefHeight="558.0" prefWidth="1028.0" style="-fx-background-color: white;" stylesheets="@../css/styleWonder.css">
-                     <styleClass>
-                        <String fx:value="free-delivery-card" />
-                        <String fx:value="shadow" />
-                     </styleClass>
+                  <VBox layoutX="912.0" prefHeight="585.0" prefWidth="368.0" style="-fx-background-color: B4B7C4;">
                      <children>
-                        <Pane prefHeight="543.0" prefWidth="997.0" style="-fx-background-color: white;" styleClass="free-delivery-card" stylesheets="@../css/styleWonder.css">
+                        <Pane prefHeight="562.0" prefWidth="365.0">
                            <children>
-                              <TableView fx:id="BookTable" layoutX="9.0" layoutY="19.0" prefHeight="520.0" prefWidth="1010.0" style="-fx-background-color: white;" styleClass="Main-UI" stylesheets="@../css/style.css">
-                                 <columns>
-                                    <TableColumn fx:id="columnBookId" prefWidth="124.00003051757812" style="-fx-background-radius: 30;" text="        书籍ID" />
-                                    <TableColumn fx:id="columnBookName" prefWidth="231.99996948242188" style="-fx-background-radius: 30;" text="                     书籍名" />
-                                    <TableColumn fx:id="columnBookAuthor" prefWidth="182.0" style="-fx-background-radius: 30;" text="                  作者" />
-                                    <TableColumn fx:id="columnBookPublishHouser" prefWidth="239.0" style="-fx-background-radius: 30;" text="                     出版社" />
-                                    <TableColumn fx:id="columnBookPrice" prefWidth="107.0" style="-fx-background-radius: 30;" text="         价格" />
-                                    <TableColumn fx:id="columnBookStock" prefWidth="125.0" style="-fx-background-radius: 30;" text="          库存" />
-                                 </columns>
-                              </TableView>
+                              <VBox fx:id="paneChosenBook" alignment="TOP_CENTER" layoutX="16.0" layoutY="100.0" prefHeight="473.0" prefWidth="337.0" style="-fx-background-color: white;" stylesheets="@../css/styleWonder.css">
+                                 <children>
+                                    <Label fx:id="lblBookNName" alignment="CENTER" prefHeight="32.0" prefWidth="324.0" text="书名">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <ImageView fx:id="imgBook" fitHeight="288.0" fitWidth="242.0" pickOnBounds="true" preserveRatio="true" />
+                                    <Label fx:id="lblBookAuthor" alignment="CENTER" prefHeight="24.0" prefWidth="321.0" text="作者">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="lblBookStock" alignment="CENTER" prefHeight="32.0" prefWidth="324.0" text="库存">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <Separator prefHeight="26.0" prefWidth="225.0" />
+                                    <Button fx:id="btnBookCheckBorrow" mnemonicParsing="true" onAction="#BookCheckBorrow" prefHeight="46.0" prefWidth="186.0" style="-fx-background-color: #423267;" stylesheets="@../css/styleWonder.css" text="借阅" textFill="WHITE">
+                                       <styleClass>
+                                          <String fx:value="search-button" />
+                                          <String fx:value="shadow" />
+                                       </styleClass>
+                                    </Button>
+                                 </children>
+                                 <styleClass>
+                                    <String fx:value="shopping-online-card" />
+                                    <String fx:value="shadow" />
+                                 </styleClass>
+                              </VBox>
+                              <Pane fx:id="paneSearch" prefHeight="89.0" prefWidth="368.0">
+                                 <children>
+                                    <TextField fx:id="textFiledSearchBook" layoutX="16.0" layoutY="15.0" prefHeight="59.0" prefWidth="337.0" promptText="输入书名搜索" styleClass="search-box" stylesheets="@../css/styleWonder.css" />
+                                    <Button fx:id="btnSearchBook" layoutX="265.0" layoutY="22.0" mnemonicParsing="false" onAction="#SearchBook" prefHeight="46.0" prefWidth="80.0" stylesheets="@../css/styleWonder.css" text="搜索">
+                                       <styleClass>
+                                          <String fx:value="search-button" />
+                                          <String fx:value="shadow" />
+                                       </styleClass>
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Button>
+                                 </children>
+                              </Pane>
                            </children>
                         </Pane>
                      </children>
                   </VBox>
-                  <VBox layoutX="1049.0" layoutY="14.0" prefHeight="558.0" prefWidth="217.0" style="-fx-background-color: B4B7C4;" stylesheets="@../css/styleWonder.css">
+                  <Pane fx:id="paneBookBrowse" layoutX="28.0" layoutY="10.0" prefHeight="562.0" prefWidth="868.0" style="-fx-background-color: #F4F4F4;" stylesheets="@../css/styleWonder.css">
+                     <children>
+                        <ScrollPane fx:id="scroll" layoutX="10.0" layoutY="13.0" prefHeight="536.0" prefWidth="848.0" styleClass="transparent" stylesheets="@../css/styleWonder.css">
+                           <content>
+                              <GridPane fx:id="grid" prefHeight="0.0" prefWidth="0.0">
+                                 <rowConstraints>
+                                    <RowConstraints minHeight="10.0" prefHeight="30.0" />
+                                 </rowConstraints>
+                              </GridPane>
+                           </content>
+                        </ScrollPane>
+                     </children>
                      <styleClass>
-                        <String fx:value="free-delivery-card" />
+                        <String fx:value="shopping-online-card" />
                         <String fx:value="shadow" />
                      </styleClass>
-                     <children>
-                        <Pane prefHeight="558.0" prefWidth="498.0">
-                           <children>
-                              <Button fx:id="btnBookCheckBorrow" layoutX="16.0" layoutY="129.0" mnemonicParsing="true" onAction="#BookCheckBorrow" prefHeight="46.0" prefWidth="186.0" style="-fx-background-color: #423267;" stylesheets="@../css/styleWonder.css" text="借阅" textFill="WHITE">
-                                 <styleClass>
-                                    <String fx:value="search-button" />
-                                    <String fx:value="shadow" />
-                                 </styleClass>
-                              </Button>
-                              <TextField fx:id="textFiledSearchBook" layoutX="2.0" layoutY="54.0" prefHeight="46.0" prefWidth="217.0" promptText="输入书名搜索" styleClass="search-box" stylesheets="@../css/styleWonder.css" />
-                              <Button fx:id="btnSearchBook" layoutX="158.0" layoutY="54.0" mnemonicParsing="false" onAction="#SearchBook" prefHeight="46.0" prefWidth="59.0" stylesheets="@../css/styleWonder.css">
-                                 <styleClass>
-                                    <String fx:value="search-button" />
-                                    <String fx:value="shadow" />
-                                 </styleClass>
-                                 <graphic>
-                                    <ImageView fitHeight="28.0" fitWidth="21.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../image/icons8_search_32px.png" />
-                                       </image>
-                                    </ImageView>
-                                 </graphic>
-                              </Button>
-                           </children>
-                        </Pane>
-                     </children>
-                  </VBox>
+                  </Pane>
                </children>
             </Pane>
-            <Pane fx:id="paneBookBorrow" prefHeight="541.0" prefWidth="1280.0" visible="false">
+            <Pane fx:id="paneBookBorrow" prefHeight="541.0" prefWidth="1280.0">
                <children>
-                  <HBox layoutX="4.0" layoutY="14.0" prefHeight="271.0" prefWidth="1028.0" style="-fx-background-color: white;" stylesheets="@../css/styleWonder.css">
+                  <HBox fx:id="paneBorrowBookRecord" layoutX="20.0" layoutY="14.0" prefHeight="551.0" prefWidth="1012.0" style="-fx-background-color: #F4F4F4;" stylesheets="@../css/styleWonder.css">
                      <children>
-                        <Pane prefHeight="271.0" prefWidth="868.0" style="-fx-background-color: white;" styleClass="free-delivery-card" stylesheets="@../css/styleWonder.css">
+                        <Pane prefHeight="300.0" prefWidth="848.0" style="-fx-background-color: #F4F4F4;" styleClass="free-delivery-card" stylesheets="@../css/styleWonder.css">
                            <children>
-                              <TableView fx:id="BookBorrowTable" layoutY="11.0" prefHeight="249.0" prefWidth="868.0" style="-fx-background-color: white;" styleClass="Main-UI" stylesheets="@../css/style.css">
-                                 <columns>
-                                    <TableColumn fx:id="columnBookBorrowId" prefWidth="215.0" style="-fx-background-radius: 30;" text="              ID" />
-                                    <TableColumn fx:id="columnBookBorrowBookName" prefWidth="193.0" style="-fx-background-radius: 30;" text="               书籍ID" />
-                                    <TableColumn fx:id="columnBookBorrowBorrowTime" prefWidth="271.0" style="-fx-background-radius: 30;" text="           借阅时间" />
-                                    <TableColumn fx:id="columnBookBorrowReturnTime" prefWidth="188.0" style="-fx-background-radius: 30;" text="             归还时间" />
-                                 </columns>
-                              </TableView>
-                           </children>
-                        </Pane>
-                        <Pane prefHeight="200.0" prefWidth="200.0">
-                           <children>
-                              <Label fx:id="lblBookName" layoutX="14.0" layoutY="87.0" text="书名：">
+                              <ScrollPane layoutY="79.0" prefHeight="452.0" prefWidth="835.0" styleClass="transparent" stylesheets="@../css/styleWonder.css">
+                                 <content>
+                                    <GridPane fx:id="gridBorrowBook">
+                                      <rowConstraints>
+                                        <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                                      </rowConstraints>
+                                    </GridPane>
+                                 </content>
+                              </ScrollPane>
+                              <Label layoutX="368.0" layoutY="14.0" prefHeight="32.0" prefWidth="107.0" text="我的借阅">
+                                 <font>
+                                    <Font size="24.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="42.0" layoutY="59.0" text="图书名">
                                  <font>
                                     <Font size="18.0" />
                                  </font>
                               </Label>
+                              <Label layoutX="567.0" layoutY="59.0" text="归还时间">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                              <Label layoutX="303.0" layoutY="59.0" text="借阅时间">
+                                 <font>
+                                    <Font size="18.0" />
+                                 </font>
+                              </Label>
+                           </children>
+                        </Pane>
+                        <Pane prefHeight="462.0" prefWidth="190.0">
+                           <children>
+                              <Pane layoutY="44.0" prefHeight="281.0" prefWidth="170.0" stylesheets="@../css/styleWonder.css">
+                                 <styleClass>
+                                    <String fx:value="chosen-fruit-card" />
+                                    <String fx:value="shadow" />
+                                 </styleClass>
+                                 <children>
+                                    <Label fx:id="lblBorrowName" alignment="CENTER" layoutX="3.0" layoutY="41.0" prefHeight="24.0" prefWidth="177.0">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <Label alignment="CENTER" layoutX="49.0" layoutY="83.0" text="借阅时间">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <Label alignment="CENTER" layoutX="49.0" layoutY="147.0" text="归还时间">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="lblBookBorrowBorrowTime" alignment="CENTER" layoutX="8.0" layoutY="117.0" prefHeight="24.0" prefWidth="154.0">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                    <Label fx:id="lblBookBorrowReturnTime" alignment="CENTER" layoutX="3.0" layoutY="171.0" prefHeight="24.0" prefWidth="164.0">
+                                       <font>
+                                          <Font size="18.0" />
+                                       </font>
+                                    </Label>
+                                 </children>
+                              </Pane>
                            </children>
                         </Pane>
                      </children>
@@ -258,13 +344,13 @@
                         <String fx:value="shadow" />
                      </styleClass>
                   </HBox>
-                  <VBox layoutX="1049.0" layoutY="14.0" prefHeight="271.0" prefWidth="217.0" style="-fx-background-color: B4B7C4;" stylesheets="@../css/styleWonder.css">
+                  <VBox fx:id="paneBorrowBookOperation" layoutX="1049.0" layoutY="14.0" prefHeight="551.0" prefWidth="217.0" style="-fx-background-color: B4B7C4;" stylesheets="@../css/styleWonder.css">
                      <styleClass>
                         <String fx:value="free-delivery-card" />
                         <String fx:value="shadow" />
                      </styleClass>
                      <children>
-                        <Pane prefHeight="570.0" prefWidth="217.0">
+                        <Pane prefHeight="381.0" prefWidth="217.0">
                            <children>
                               <Button fx:id="btnRenew" layoutX="18.0" layoutY="185.0" mnemonicParsing="true" onAction="#Renew" prefHeight="46.0" prefWidth="186.0" style="-fx-background-color: #423267;" stylesheets="@../css/styleWonder.css" text="续借" textFill="WHITE">
                                  <styleClass>
@@ -278,53 +364,13 @@
                                     <String fx:value="shadow" />
                                  </styleClass>
                               </Button>
-                              <TextField fx:id="textFiledBookBorrowSearch" layoutX="2.0" layoutY="31.0" prefHeight="46.0" prefWidth="217.0" promptText="输入书籍ID" styleClass="search-box" stylesheets="@../css/styleWonder.css" />
-                              <Button fx:id="btnBookBorrowSearch" layoutX="158.0" layoutY="31.0" mnemonicParsing="false" onAction="#BookBorrowSearch" prefHeight="46.0" prefWidth="59.0" stylesheets="@../css/styleWonder.css">
-                                 <styleClass>
-                                    <String fx:value="search-button" />
-                                    <String fx:value="shadow" />
-                                 </styleClass>
-                                 <graphic>
-                                    <ImageView fitHeight="28.0" fitWidth="21.0" pickOnBounds="true" preserveRatio="true">
-                                       <image>
-                                          <Image url="@../image/icons8_search_32px.png" />
-                                       </image>
-                                    </ImageView>
-                                 </graphic>
-                              </Button>
                            </children>
                         </Pane>
                      </children>
                   </VBox>
-                  <VBox layoutX="13.0" layoutY="301.0" prefHeight="271.0" prefWidth="1021.0" style="-fx-background-color: white;" stylesheets="@../css/styleWonder.css">
-                     <styleClass>
-                        <String fx:value="free-delivery-card" />
-                        <String fx:value="shadow" />
-                     </styleClass>
-                     <children>
-                        <Pane prefHeight="271.0" prefWidth="848.0" style="-fx-background-color: white;" styleClass="free-delivery-card" stylesheets="@../css/styleWonder.css">
-                           <children>
-                              <TableView fx:id="BookBorrowTable1" layoutX="-134.0" layoutY="19.0" prefHeight="249.0" prefWidth="994.0" style="-fx-background-color: white;" styleClass="Main-UI" stylesheets="@../css/style.css">
-                                 <columns>
-                                    <TableColumn fx:id="columnBookReturnRecordId" prefWidth="169.0" style="-fx-background-radius: 30;" text="              ID" />
-                                    <TableColumn fx:id="columnBookReturnRecordUserId" prefWidth="204.0" style="-fx-background-radius: 30;" text="              用户ID" />
-                                    <TableColumn fx:id="columnBookReturnRecordBookId" prefWidth="162.0" style="-fx-background-radius: 30;" text="      书籍ID" />
-                                    <TableColumn fx:id="columnBookReturnRecordBorrowTime" prefWidth="232.0" style="-fx-background-radius: 30;" text="           借阅时间" />
-                                    <TableColumn fx:id="columnBookReturnRecordReturnTime" prefWidth="226.0" style="-fx-background-radius: 30;" text="             归还时间" />
-                                 </columns>
-                              </TableView>
-                           </children>
-                        </Pane>
-                     </children>
-                     <padding>
-                        <Insets left="150.0" />
-                     </padding>
-                  </VBox>
-                  <Label layoutX="9.0" layoutY="3.0" text="我的借阅" />
-                  <Label layoutX="13.0" layoutY="291.0" text="我的借阅记录" />
                </children>
             </Pane>
-            <Pane fx:id="paneAbout" prefHeight="585.0" prefWidth="1280.0" style="-fx-background-color: #1F274E;">
+            <Pane fx:id="paneAbout" prefHeight="585.0" prefWidth="1280.0" style="-fx-background-color: #1F274E;" visible="false">
                <children>
                   <ImageView fitHeight="190.0" fitWidth="164.0" layoutX="570.0" layoutY="448.0" pickOnBounds="true" preserveRatio="true">
                      <image>
@@ -364,7 +410,7 @@
          <children>
             <AnchorPane fx:id="paneMenu" prefHeight="680.0" prefWidth="200.0">
                <children>
-                  <VBox fx:id="vbMenu" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="200.0" spacing="20.0" style="-fx-background-color: #3F2B63;">
+                  <VBox fx:id="vbMenu" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="680.0" prefWidth="200.0" spacing="40.0" style="-fx-background-color: #3F2B63;">
                      <children>
                         <Pane prefHeight="95.0" prefWidth="200.0">
                            <children>
@@ -384,26 +430,61 @@
                            <font>
                               <Font size="18.0" />
                            </font>
+                           <graphic>
+                              <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../image/icons8_user_64px.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
                         </JFXButton>
                         <JFXButton fx:id="btnBookCheck" layoutX="10.0" layoutY="149.0" onAction="#BookCheck" prefHeight="55.0" prefWidth="200.0" stylesheets="@../css/style.css" text="图书查阅" textFill="WHITE">
                            <font>
                               <Font size="18.0" />
                            </font>
+                           <graphic>
+                              <ImageView fitHeight="2432.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../image/icons8_book_52px.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
                         </JFXButton>
                         <JFXButton fx:id="btnBookBorrowReturn" onAction="#BookBorrowReturn" prefHeight="55.0" prefWidth="200.0" stylesheets="@../css/style.css" text="借阅/归还" textFill="WHITE">
                            <font>
                               <Font name="Microsoft YaHei Light" size="18.0" />
                            </font>
+                           <graphic>
+                              <ImageView fitHeight="32.0" fitWidth="32.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../image/icons8_borrow_book_64px.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
                         </JFXButton>
                         <JFXButton fx:id="btnAbout" layoutX="10.0" layoutY="314.0" onAction="#About" prefHeight="55.0" prefWidth="200.0" stylesheets="@../css/style.css" text="关于" textFill="WHITE">
                            <font>
                               <Font name="Microsoft YaHei UI Light" size="18.0" />
                            </font>
+                           <graphic>
+                              <ImageView fitHeight="24.0" fitWidth="24.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../image/icons8_about_100px.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
                         </JFXButton>
                         <JFXButton fx:id="btnExit1" layoutX="10.0" layoutY="469.0" onAction="#Exit1" prefHeight="55.0" prefWidth="200.0" stylesheets="@../css/style.css" text="退出" textFill="WHITE">
                            <font>
                               <Font size="18.0" />
                            </font>
+                           <graphic>
+                              <ImageView fitHeight="28.0" fitWidth="28.0" pickOnBounds="true" preserveRatio="true">
+                                 <image>
+                                    <Image url="@../image/icons8_exit_64px.png" />
+                                 </image>
+                              </ImageView>
+                           </graphic>
                         </JFXButton>
                      </children>
                   </VBox>

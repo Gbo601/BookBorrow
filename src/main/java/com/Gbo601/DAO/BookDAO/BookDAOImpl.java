@@ -1,10 +1,10 @@
 package com.Gbo601.DAO.BookDAO;
 
-import java.sql.Connection;
-import java.util.List;
-
 import com.Gbo601.DAO.BaseDAO;
 import com.Gbo601.Model.Book;
+
+import java.sql.Connection;
+import java.util.List;
 
 /**
  * 
@@ -54,13 +54,21 @@ public class BookDAOImpl extends BaseDAO<Book> implements BookDAO {
 	@Override
 	public Book getBookByName(Connection conn, String book_name) {
 		// TODO Auto-generated method stub
-		String sql = "select book_id,book_name,book_author,book_publishHouse,book_price,book_stock from Book where book_name= ?";
+		String sql = "select book_id,book_name,book_author,book_publishHouse,book_price,book_stock,book_image from Book where book_name= ?";
 		Book book = getInstance(conn, sql, book_name);
 		return book;
 	}
+
+	@Override
+	public Book getBookById(Connection conn, String book_id) {
+		String sql="select book_id,book_name,book_author,book_publishHouse,book_price,book_stock,book_image from Book where book_id= ?";
+	    Book book=getInstance(conn,sql,book_id);
+	    return book;
+	}
+
 	@Override
 	public List<Book> getAll(Connection conn){
-		String sql="select book_id,book_name,book_author,book_publishHouse,book_price,book_stock from Book";
+		String sql="select book_id,book_name,book_author,book_publishHouse,book_price,book_stock,book_image from Book";
 		List<Book> list = getForList(conn, sql);
 		return list;
 	}

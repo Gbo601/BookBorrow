@@ -68,6 +68,14 @@ public interface BookDAO {
 	 */
 	Book getBookByName(Connection conn,String book_name);
 	/**
+	* @Description: 根据书id查找书
+	* @Input: Connection,String
+	* @Return: Book
+	* @Author: Gbo601
+	* @Date Created in 2021-5-14 20:52
+	*/
+	Book getBookById(Connection conn,String book_id);
+	/**
 	 * 
 	 * @Description 查询表中的所有记录构成集合
 	 * @author xieyunlei Email:2451983737@qq.com

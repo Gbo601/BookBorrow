@@ -1,18 +1,17 @@
 package com.Gbo601.GUI.Controller;
 
+import com.Gbo601.DAO.Announcement.AnnouncementDAOIpml;
 import com.Gbo601.DAO.BookBorrow.BookBorrowDAOIpml;
 import com.Gbo601.DAO.BookDAO.BookDAOImpl;
+import com.Gbo601.DAO.State.StateDAOIpml;
 import com.Gbo601.DAO.UserDAO.UserDAOImpl;
+import com.Gbo601.Model.Announcement;
 import com.Gbo601.Model.Book;
 import com.Gbo601.Model.BookBorrow;
 import com.Gbo601.Model.User;
 import com.Gbo601.Util.JDBCUtils;
 import com.jfoenix.controls.*;
-import com.jfoenix.controls.datamodels.treetable.RecursiveTreeObject;
 import com.jfoenix.transitions.hamburger.HamburgerBackArrowBasicTransition;
-import javafx.beans.binding.Bindings;
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
@@ -35,8 +34,9 @@ import java.io.IOException;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.Date;
-import java.util.*;
-import java.util.function.Function;
+import java.util.List;
+import java.util.Optional;
+import java.util.ResourceBundle;
 
 /**
  * @author Gbo601
@@ -242,15 +242,46 @@ public class ManagerMenuController implements Initializable {
     @FXML
     private TableColumn<Book, Integer> columnBookStock;
 
+    @FXML
+    private TableView<Announcement> AnncouncementTable;
+
+    @FXML
+    private TableColumn<Announcement, Integer> columnAnnouncementID;
+
+    @FXML
+    private TableColumn<Announcement, Date> columnAnnouncementTime;
+
+    @FXML
+    private TableColumn<Announcement, String> columnAnnouncementText;
+
+    @FXML
+    private JFXButton btnAnnouncement;
+
+    @FXML
+    private Button btnAnnouncementRelease;
+
+    @FXML
+    private Pane paneAnnouncement;
+
+
+    @FXML
+    private TextArea textAreaAnnouncement;
+
+    @FXML
+    private Button btnAnnouncementDelete;
 
     private static String userId;
     private static User user;
     private final UserDAOImpl userDAO=new UserDAOImpl();
     private final BookBorrowDAOIpml bookBorrowDAO=new BookBorrowDAOIpml();
+    private final StateDAOIpml stateDAOIpml=new StateDAOIpml();
+    private final AnnouncementDAOIpml announcementDAOIpml=new AnnouncementDAOIpml();
     private BookDAOImpl bookDAOImpl=new BookDAOImpl();
     ObservableList<User> oblist;
     ObservableList<BookBorrow> oblist1;
     ObservableList<Book> oblist2;
+    ObservableList<Announcement> oblist3;
+
 
 
 
@@ -268,6 +299,7 @@ public class ManagerMenuController implements Initializable {
         paneBorrowManager.setVisible(false);
         paneUserManager.setVisible(false);
         panePersonInfo.setVisible(false);
+        paneAnnouncement.setVisible(false);
     }
 
 
@@ -357,7 +389,7 @@ public class ManagerMenuController implements Initializable {
         paneBorrowManager.setVisible(false);
         paneUserManager.setVisible(true);
         panePersonInfo.setVisible(false);
-
+        paneAnnouncement.setVisible(false);
         userTableView();
     }
 
@@ -414,6 +446,8 @@ public class ManagerMenuController implements Initializable {
             conn=JDBCUtils.getConnection();
             userDAO.delete(conn,userUserTable.getSelectionModel().selectedItemProperty().get().getUserID());
             list=userDAO.getAll(conn);
+
+            stateDAOIpml.delete(conn,userUserTable.getSelectionModel().selectedItemProperty().get().getUserID());
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
@@ -421,6 +455,7 @@ public class ManagerMenuController implements Initializable {
         }
         oblist= FXCollections.observableList(list);
         userUserTable.setItems(oblist);
+
     }
 //用户管理面板-修改用户
     @FXML
@@ -489,6 +524,7 @@ public class ManagerMenuController implements Initializable {
         paneBorrowManager.setVisible(true);
         paneUserManager.setVisible(false);
         panePersonInfo.setVisible(false);
+        paneAnnouncement.setVisible(false);
         BookBorrowTable();
     }
 //    借阅管理面板-借书表
@@ -613,6 +649,7 @@ public class ManagerMenuController implements Initializable {
         paneBorrowManager.setVisible(false);
         paneUserManager.setVisible(false);
         panePersonInfo.setVisible(false);
+        paneAnnouncement.setVisible(false);
         BookTable();
 
     }
@@ -728,6 +765,99 @@ public class ManagerMenuController implements Initializable {
             oblist2= FXCollections.observableArrayList(book);
         }
         BookTable.setItems(oblist2);
+    }
+
+    @FXML
+    void btnAnnouncement(ActionEvent event) {
+        lblTitle.setText("发布公告");
+        paneAbout.setVisible(false);
+        paneBookManager.setVisible(false);
+        paneBorrowManager.setVisible(false);
+        paneUserManager.setVisible(false);
+        panePersonInfo.setVisible(false);
+        paneAnnouncement.setVisible(true);
+        AnnouncementTable();
+    }
+    void AnnouncementTable(){
+        Connection conn=null;
+        List<Announcement> list=null;
+
+        try {
+            conn=JDBCUtils.getConnection();
+            list=announcementDAOIpml.getAll(conn);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            JDBCUtils.closeResource(conn,null);
+        }
+        oblist3=FXCollections.observableList(list);
+        columnAnnouncementID.setCellValueFactory(new PropertyValueFactory<>("id"));
+        columnAnnouncementTime.setCellValueFactory(new PropertyValueFactory<>("date"));
+        columnAnnouncementText.setCellValueFactory(new PropertyValueFactory<>("announcement"));
+        AnncouncementTable.setItems(oblist3);
+    }
+
+    @FXML
+    void btnAnnouncementRelease(ActionEvent event) {
+       String text=textAreaAnnouncement.getText();
+       Announcement announcement=new Announcement();
+        announcement.setDate(new java.sql.Date(System.currentTimeMillis()));
+        announcement.setAnnouncement(text);
+        List<Announcement> list=null;
+        int index=-1;
+        Connection conn=null;
+        try {
+            conn=JDBCUtils.getConnection();
+            announcementDAOIpml.insert(conn,announcement);
+            list=announcementDAOIpml.getAll(conn);
+            index=1;
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            JDBCUtils.closeResource(conn,null);
+        }
+        textAreaAnnouncement.setText("");
+        if(index==1){
+            showDialog("提示","添加成功",btnAnnouncementRelease);
+        }else{
+            showDialog("提示","添加失败",btnAnnouncementRelease);
+        }
+        oblist3=FXCollections.observableList(list);
+        AnncouncementTable.setItems(oblist3);
+    }
+    @FXML
+    void btnAnnouncementDelete(ActionEvent event) {
+         Connection conn=null;
+         List<Announcement> list=null;
+
+        try {
+            conn=JDBCUtils.getConnection();
+            announcementDAOIpml.delete(conn,AnncouncementTable.getSelectionModel().selectedItemProperty().get().getId());
+            list=announcementDAOIpml.getAll(conn);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            JDBCUtils.closeResource(conn,null);
+        }
+        oblist3=FXCollections.observableList(list);
+        AnncouncementTable.setItems(oblist3);
+
+    }
+    public void showDialog(String Heading,String Body,Button btn){
+        JFXAlert alert = new JFXAlert((Stage) btn.getScene().getWindow());
+        alert.initModality(Modality.APPLICATION_MODAL);
+        alert.setOverlayClose(false);
+
+        JFXDialogLayout layout = new JFXDialogLayout();
+        layout.setHeading(new Label(Heading));
+        layout.setBody(new Label(Body));
+
+        JFXButton closeButton = new JFXButton("好的");
+        closeButton.getStyleClass().add("dialog-accept");
+        closeButton.setOnAction(event -> alert.hideWithAnimation());
+        layout.setActions(closeButton);
+        alert.setContent(layout);
+        alert.show();
     }
     @Override
     public void initialize(URL location, ResourceBundle resources) {

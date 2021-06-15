@@ -2,11 +2,8 @@ package com.Gbo601.Util;
 
 import com.alibaba.druid.pool.DruidDataSourceFactory;
 import com.mchange.v2.c3p0.ComboPooledDataSource;
-import org.apache.commons.dbcp.BasicDataSourceFactory;
 
 import javax.sql.DataSource;
-import java.io.File;
-import java.io.FileInputStream;
 import java.io.InputStream;
 import java.sql.*;
 import java.util.Properties;
@@ -44,11 +41,11 @@ public class JDBCUtils {
      * @author Gbo601
      * @create 2021-05-07 10:59
      */
-    /*private static ComboPooledDataSource cpds=new ComboPooledDataSource("helloc3p0");
+    private static ComboPooledDataSource cpds=new ComboPooledDataSource("hellc3p0.xml");
     public static Connection getC3P0Connection()throws SQLException{
         Connection conn=cpds.getConnection();
         return conn;
-    }*/
+    }
     /**
      * @Description DBCP数据库连接池
      * @author Gbo601
@@ -58,7 +55,7 @@ public class JDBCUtils {
     static{
         try {
             Properties pros = new Properties();
-            FileInputStream is = new FileInputStream(new File("D:\\Study\\JavaSE\\DBCourseDesign\\src\\main\\resources\\DBCP.properties"));
+            FileInputStream is = new FileInputStream(new File("DBCP.properties"));
             pros.load(is);
             source = BasicDataSourceFactory.createDataSource(pros);
         } catch (Exception e) {
@@ -100,12 +97,16 @@ public class JDBCUtils {
      */
     public static void closeResource(Connection conn, Statement ps){
         try {
-            if(ps!=null)ps.close();
+            if(ps!=null) {
+                ps.close();
+            }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
         try {
-            if(conn!=null)conn.close();
+            if(conn!=null) {
+                conn.close();
+            }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
@@ -117,17 +118,23 @@ public class JDBCUtils {
      */
     public static void closeResource(Connection conn, Statement ps, ResultSet rs){
         try {
-            if(ps!=null)ps.close();
+            if(ps!=null) {
+                ps.close();
+            }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
         try {
-            if(conn!=null)conn.close();
+            if(conn!=null) {
+                conn.close();
+            }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }
         try {
-            if(rs!=null)rs.close();
+            if(rs!=null) {
+                rs.close();
+            }
         } catch (SQLException throwables) {
             throwables.printStackTrace();
         }

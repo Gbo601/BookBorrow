@@ -1,8 +1,10 @@
 package com.Gbo601.GUI.Controller;
 
+import com.Gbo601.DAO.State.StateDAOIpml;
 import com.Gbo601.DAO.UserDAO.UserDAOImpl;
 import com.Gbo601.GUI.ManagerMenuStart;
 import com.Gbo601.GUI.UserMenuStart;
+import com.Gbo601.Model.State;
 import com.Gbo601.Model.User;
 import com.Gbo601.Util.JDBCUtils;
 import com.jfoenix.controls.*;
@@ -39,6 +41,10 @@ public class LoginController {
     private  String ID;
     private  String Password;
     private UserDAOImpl userDAO=new UserDAOImpl();
+    private StateDAOIpml stateDAOIpml=new StateDAOIpml();
+
+
+
 
 
     @FXML
@@ -64,12 +70,14 @@ public class LoginController {
             boolean verification=false;
             int verificationIdentity=0;
             User user=null;
+            State state=null;
             Connection conn=null;
             try {
                 conn= JDBCUtils.getConnection();
                 verification=userDAO.verification(conn,ID,Password);
                 verificationIdentity=userDAO.verificationIdentity(conn,ID);
                 user= userDAO.getUserById(conn,ID);
+                state=stateDAOIpml.getStateByUserId(conn,user.getUserID());
             } catch (Exception e) {
                 e.printStackTrace();
             } finally {
@@ -81,7 +89,7 @@ public class LoginController {
                         ManagerMenu(user);
 
                     }else{
-                        UserMenu(user);
+                        UserMenu(user,state);
                         System.out.println(user.getIdentity());
                     }
                 } catch (Exception e) {
@@ -115,13 +123,14 @@ public class LoginController {
     * @Author: Gbo601
     * @Date Created in 2021-5-7 8:04
     */
-    public void UserMenu(User user) throws Exception {
+    public void UserMenu(User user, State state) throws Exception {
 //        将登录按钮与场景，窗口绑定以执行关闭登录窗口
         Stage primaryStage=(Stage)btnLogin.getScene().getWindow();
         primaryStage.hide();
         UserMenuController controller=new UserMenuController();
         controller.setUser(user);
         controller.setUserId();
+        controller.setState(state);
 
         UserMenuStart userMenuStart=new UserMenuStart();
         Stage stage=new Stage();

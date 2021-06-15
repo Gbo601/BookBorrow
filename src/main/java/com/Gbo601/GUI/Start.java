@@ -1,12 +1,13 @@
 package com.Gbo601.GUI;
 
-import com.Gbo601.GUI.Controller.LoginController;
+import animatefx.animation.FadeIn;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
+
 import java.io.IOException;
 
 
@@ -22,6 +23,8 @@ public class Start extends Application {
         primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
+
+        new FadeIn(root).play();
     }
     public static void main(String[] args) {
         launch(args);

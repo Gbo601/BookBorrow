@@ -1,33 +1,35 @@
 package com.Gbo601.GUI.Controller;
 
+import animatefx.animation.*;
+import com.Gbo601.DAO.Announcement.AnnouncementDAOIpml;
 import com.Gbo601.DAO.BookBorrow.BookBorrowDAOIpml;
 import com.Gbo601.DAO.BookDAO.BookDAOImpl;
+import com.Gbo601.DAO.State.StateDAOIpml;
 import com.Gbo601.DAO.UserDAO.UserDAOImpl;
-import com.Gbo601.Model.Book;
-import com.Gbo601.Model.BookBorrow;
-import com.Gbo601.Model.User;
+import com.Gbo601.GUI.MyListener;
+import com.Gbo601.Model.*;
 import com.Gbo601.Util.JDBCUtils;
 import com.jfoenix.controls.*;
 import com.jfoenix.transitions.hamburger.HamburgerBackArrowBasicTransition;
-import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.geometry.Insets;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
-import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseEvent;
-import javafx.scene.layout.AnchorPane;
-import javafx.scene.layout.Pane;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.URL;
 import java.sql.Connection;
 import java.sql.Date;
@@ -202,24 +204,113 @@ public class UserMenuController implements Initializable {
     @FXML
     private JFXButton btnExit1;
 
-    @FXML
-    private Label lblBookName;
 
-    private int index;
+    @FXML
+    private ImageView imgBook;
+
+    @FXML
+    private Label lblBookNName;
+
+    @FXML
+    private Label lblBookAuthor;
+
+    @FXML
+    private Label lblBookStock;
+
+    @FXML
+    private ScrollPane scroll;
+
+    @FXML
+    private GridPane grid;
+
+
+    @FXML
+    private VBox paneInfo;
+    @FXML
+    private VBox paneAnnouncement;
+
+    @FXML
+    private VBox paneAnother;
+
+
+    @FXML
+    private Pane paneSearch;
+
+    @FXML
+    private Pane paneBookBrowse;
+
+
+    @FXML
+    private VBox paneChosenBook;
+
+    @FXML
+    private Pane paneTop;
+
+
+    @FXML
+    private VBox paneModifyInfo;
+
+    @FXML
+    private Label lblBorrowName;
+
+    @FXML
+    private Label lblBookBorrowBorrowTime;
+
+    @FXML
+    private Label lblBookBorrowReturnTime;
+
+
+    @FXML
+    private GridPane gridBorrowBook;
+
+    @FXML
+    private GridPane gridAnnouncement;
+
+
+    @FXML
+    private Label lblHaveBorrow;
+
+    @FXML
+    private Label lblBalance;
+
+    @FXML
+    private Label lblCanBorrow;
+
+    @FXML
+    private VBox paneBorrowBookOperation;
+
+    @FXML
+    private HBox paneBorrowBookRecord;
+
+    @FXML
+    private JFXButton btnCharge;
+
     private static String userId;
     private static User user;
+    private static State state;
     private final UserDAOImpl userDAO=new UserDAOImpl();
     private final BookBorrowDAOIpml bookBorrowDAO=new BookBorrowDAOIpml();
     private BookDAOImpl bookDAOImpl=new BookDAOImpl();
-    ObservableList<User> oblist;
-    ObservableList<BookBorrow> oblist1;
-    ObservableList<Book> oblist2;
+    private AnnouncementDAOIpml announcementDAOIpml=new AnnouncementDAOIpml();
+    private StateDAOIpml stateDAOIpml=new StateDAOIpml();
 
-    public void setUser(User user){
-        this.user=user;
+    private Book book;
+    private BookBorrow bookBorrow;
+
+    MyListener mylistener;
+    MyListener mylistener1;
+    Image image;
+
+
+
+    public void setUser(User User){
+        user=User;
     }
     public void setUserId(){
-        this.userId=user.getUserID();
+        userId=user.getUserID();
+    }
+    public void setState(State sstate){
+        state=sstate;
     }
 
     @FXML
@@ -235,6 +326,7 @@ public class UserMenuController implements Initializable {
     @FXML
     void About(ActionEvent event) {
         lblTitle.setText("关于");
+        new FadeIn(paneTop).play();
         paneAbout.setVisible(true);
         paneBookBorrow.setVisible(false);
         paneBookCheck.setVisible(false);
@@ -244,11 +336,18 @@ public class UserMenuController implements Initializable {
 //    个人信息面板
     @FXML
     void PersonInfo(ActionEvent event) {
+
+        new FadeIn(paneTop).play();
         lblTitle.setText("个人信息");
         paneAbout.setVisible(false);
         paneBookBorrow.setVisible(false);
         paneBookCheck.setVisible(false);
         panePersonInfo.setVisible(true);
+
+        new ZoomIn(paneInfo).setSpeed(1.4).play();
+        new ZoomInRight(paneAnnouncement).setSpeed(1.4).play();
+        new ZoomInDown(paneAnother).setSpeed(1.4).play();
+        new ZoomInUp(paneModifyInfo).setSpeed(1.7).play();
 
         lblUserId.setText("账号:"+user.getUserID());
         lblUserName.setText("姓名:"+user.getUserName());
@@ -256,7 +355,83 @@ public class UserMenuController implements Initializable {
         lblUserSex.setText("性别:"+user.getUserSex());
         lblUserEmail.setText("邮箱:"+user.getUserEmail());
         lblUserPhone.setText("手机:"+user.getUserPhone());
+        lblHaveBorrow.setText("已借:"+(8-state.getNum())+"本");
+        lblBalance.setText("余额:"+state.getMoney());
+        lblCanBorrow.setText("还能借:"+state.getNum()+"本");
+        AnnouncementTable();
 
+    }
+
+    void AnnouncementTable(){
+        Connection conn=null;
+        List<Announcement> list=null;
+
+        try {
+            conn=JDBCUtils.getConnection();
+            list=announcementDAOIpml.getAll(conn);
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            JDBCUtils.closeResource(conn,null);
+        }
+        gridAnnouncement.getChildren().clear();
+        int row=0;
+
+        try {
+            for (int i = list.size()-1; i >=0; i--) {
+                FXMLLoader fxmlLoader=new FXMLLoader();
+                fxmlLoader.setLocation(getClass().getResource("/fxml/Announcement.fxml"));
+                AnchorPane anchorPane=fxmlLoader.load();
+                AnnouncementController controller=fxmlLoader.getController();
+                controller.setData(list.get(i));
+
+                gridAnnouncement.add(anchorPane,0,row);
+                row++;
+                gridAnnouncement.setMinWidth(Region.USE_COMPUTED_SIZE);
+                gridAnnouncement.setPrefWidth(Region.USE_COMPUTED_SIZE);
+                gridAnnouncement.setMaxWidth(Region.USE_COMPUTED_SIZE);
+                gridAnnouncement.setMinHeight(Region.USE_COMPUTED_SIZE);
+                gridAnnouncement.setPrefHeight(Region.USE_COMPUTED_SIZE);
+                gridAnnouncement.setMaxHeight(Region.USE_COMPUTED_SIZE);
+
+                GridPane.setMargin(anchorPane,new Insets(10));
+
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+    @FXML
+    void Charge(ActionEvent event) {
+
+        TextInputDialog dialog=new TextInputDialog();
+        dialog.setTitle("充值");
+        dialog.setContentText("请输入充值金额");
+
+        Optional<String> word=dialog.showAndWait();
+        if(word.isPresent()){
+            String money=word.get();
+            double money1=Double.parseDouble(money);
+            if(money1<=0){
+                showDialog("提示","请输入正确金额",btnCharge);
+            }
+            else{
+                Connection conn=null;
+                try {
+                    conn= JDBCUtils.getConnection();
+                    stateDAOIpml.updataMoney(conn,state,money1);
+                    state=stateDAOIpml.getStateByUserId(conn,state.getUserID());
+                } catch (Exception e) {
+                    e.printStackTrace();
+                } finally {
+                    JDBCUtils.closeResource(conn,null);
+                }
+            }
+
+        }
+        lblHaveBorrow.setText("已借:"+(8-state.getNum())+"本");
+        lblBalance.setText("余额:"+state.getMoney());
+        lblCanBorrow.setText("还能借:"+state.getNum()+"本");
     }
     //    个人信息面板-修改信息
     @FXML
@@ -283,7 +458,6 @@ public class UserMenuController implements Initializable {
         TextInputDialog dialog=new TextInputDialog();
         dialog.setTitle("修改密码");
         dialog.setContentText("请输入密码");
-
         Optional<String> word=dialog.showAndWait();
         if(word.isPresent()){
             String password=word.get();
@@ -297,17 +471,40 @@ public class UserMenuController implements Initializable {
             } finally {
                 JDBCUtils.closeResource(conn,null);
             }
+            System.exit(0);
         }
     }
     //图书查阅面板
     @FXML
     void BookCheck(ActionEvent event) {
-        lblTitle.setText("图书管理");
+        new FadeIn(paneTop).play();
+        lblTitle.setText("图书查阅");
         paneAbout.setVisible(false);
         paneBookBorrow.setVisible(false);
         paneBookCheck.setVisible(true);
         panePersonInfo.setVisible(false);
+
+        new ZoomIn(paneBookBrowse).setSpeed(1.6).play();
+        new ZoomIn(paneSearch).setSpeed(1.6).play();
+        new ZoomIn(paneChosenBook).setSpeed(1.6).play();
         BookTable();
+    }
+    void setChosenBook(Book book){
+        this.book=book;
+        lblBookNName.setText(""+book.getBook_name());
+        lblBookAuthor.setText("作者:"+book.getBook_author());
+        lblBookStock.setText("库存:"+book.getBook_stock());
+        InputStream is=null;
+        is=new ByteArrayInputStream(book.getBook_image());
+        image=new Image(is);
+        imgBook.setImage(image);
+        try {
+            if(is!=null){
+                is.close();
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     //图书查阅面板-书表
     void BookTable(){
@@ -321,14 +518,55 @@ public class UserMenuController implements Initializable {
         } finally {
             JDBCUtils.closeResource(conn,null);
         }
-        oblist2= FXCollections.observableList(list);
-        columnBookId.setCellValueFactory(new PropertyValueFactory<>("book_id"));
-        columnBookName.setCellValueFactory(new PropertyValueFactory<>("book_name"));
-        columnBookAuthor.setCellValueFactory(new PropertyValueFactory<>("book_author"));
-        columnBookPublishHouser.setCellValueFactory(new PropertyValueFactory<>("book_publishHouse"));
-        columnBookPrice.setCellValueFactory(new PropertyValueFactory<>("book_price"));
-        columnBookStock.setCellValueFactory(new PropertyValueFactory<>("book_stock"));
-        BookTable.setItems(oblist2);
+        if(list.size()>0){
+            setChosenBook(list.get(0));
+            mylistener=new MyListener() {
+                @Override
+                public void onClickListene(Book book) {
+                    setChosenBook(book);
+                }
+
+                @Override
+                public void onCLickListenerBorrow(BookBorrow bookBorrow) {
+
+                }
+            };
+        }
+        grid.getChildren().clear();
+        int column=0;
+        int row=1;
+        try {
+            for (int i = 0; i < list.size(); i++) {
+                FXMLLoader fxmlLoader=new FXMLLoader();
+                fxmlLoader.setLocation(getClass().getResource("/fxml/book.fxml"));
+                AnchorPane anchorPane=fxmlLoader.load();
+
+                BookController controller=fxmlLoader.getController();
+                controller.setData(list.get(i),mylistener);
+
+                if(column==4){
+                    column=0;
+                    row++;
+                }
+
+                grid.add(anchorPane,column++,row);
+
+                //set grid width
+                grid.setMinWidth(Region.USE_COMPUTED_SIZE);
+                grid.setPrefWidth(Region.USE_COMPUTED_SIZE);
+                grid.setMaxWidth(Region.USE_PREF_SIZE);
+
+                //set grid height
+                grid.setMinHeight(Region.USE_COMPUTED_SIZE);
+                grid.setPrefHeight(Region.USE_COMPUTED_SIZE);
+                grid.setMaxHeight(Region.USE_PREF_SIZE);
+
+                GridPane.setMargin(anchorPane,new Insets(10));
+
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
     //图书查阅面板-图书借阅
     @FXML
@@ -340,16 +578,14 @@ public class UserMenuController implements Initializable {
             BookBorrow bookBorrow=new BookBorrow(
                     0,
                     user.getUserID(),
-                    BookTable.getSelectionModel().selectedItemProperty().get().getBook_id(),
+                    book.getBook_id(),
                     date,
                     date
             );
-            Book book=new Book();
-            book.setBook_id(BookTable.getSelectionModel().selectedItemProperty().get().getBook_id());
             BookBorrowSelectTimeController controller=loader.getController();
             controller.setUser(bookBorrow);
             controller.setBook(book);
-            controller.setTable(BookTable);
+
             Stage stage=new Stage();
             stage.setScene(new Scene(root));
             stage.setTitle("借阅");
@@ -365,34 +601,45 @@ public class UserMenuController implements Initializable {
         String bookName=textFiledSearchBook.getText();
         Connection conn=null;
         Book book=null;
-        List<Book> list=null;
         try {
             conn=JDBCUtils.getConnection();
-            if(bookName.equals("")){
-                list=bookDAOImpl.getAll(conn);
-            }else{
-                book=bookDAOImpl.getBookByName(conn,bookName);
-            }
+            book=bookDAOImpl.getBookByName(conn,bookName);
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             JDBCUtils.closeResource(conn,null);
         }
+        this.book=book;
         if(bookName.equals("")){
-            oblist2= FXCollections.observableList(list);
+            BookTable();
         }else{
-            oblist2= FXCollections.observableArrayList(book);
+            try {
+                FXMLLoader fxmlLoader=new FXMLLoader();
+                fxmlLoader.setLocation(getClass().getResource("/fxml/book.fxml"));
+                AnchorPane anchorPane=fxmlLoader.load();
+
+                BookController controller=fxmlLoader.getController();
+                controller.setData(book,mylistener);
+
+                grid.getChildren().clear();
+                grid.add(anchorPane,0,1);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
         }
-        BookTable.setItems(oblist2);
     }
 //    借阅、归还面板
     @FXML
     void BookBorrowReturn(ActionEvent event) {
+        new FadeIn(paneTop).play();
         lblTitle.setText("借阅/归还");
         paneAbout.setVisible(false);
         paneBookBorrow.setVisible(true);
         paneBookCheck.setVisible(false);
         panePersonInfo.setVisible(false);
+        new ZoomIn(paneBorrowBookOperation).setSpeed(1.6).play();
+        new ZoomIn(paneBorrowBookRecord).setSpeed(1.6).play();
+
         BookBorrowTable();
     }
 //借阅、归还面板-我的借阅
@@ -407,63 +654,91 @@ public class UserMenuController implements Initializable {
         } finally {
             JDBCUtils.closeResource(conn,null);
         }
-        oblist1= FXCollections.observableList(list);
-        columnBookBorrowId.setCellValueFactory(new PropertyValueFactory<>("id"));
-        columnBookBorrowBookName.setCellValueFactory(new PropertyValueFactory<>("book_id"));
-        columnBookBorrowBorrowTime.setCellValueFactory(new PropertyValueFactory<>("borrowTime"));
-        columnBookBorrowReturnTime.setCellValueFactory(new PropertyValueFactory<>("returnTime"));
-        BookBorrowTable.setItems(oblist1);
+        if(list.size()>0){
+            setChosenBorrowBook(list.get(0));
+            mylistener1=new MyListener() {
+                @Override
+                public void onClickListene(Book book) {
+
+                }
+                @Override
+                public void onCLickListenerBorrow(BookBorrow bookBorrowbook) {
+                    setChosenBorrowBook(bookBorrowbook);
+                }
+            };
+        }
+        gridBorrowBook.getChildren().clear();
+        int row=0;
+        try {
+            for (int i = 0; i < list.size(); i++) {
+                FXMLLoader fxmlLoader=new FXMLLoader();
+                fxmlLoader.setLocation(getClass().getResource("/fxml/bookBorrowBar.fxml"));
+                AnchorPane anchorPane=fxmlLoader.load();
+
+                BookBorrowBarController controller=fxmlLoader.getController();
+                controller.setData(list.get(i),mylistener1);
+                row++;
+                gridBorrowBook.add(anchorPane,0,row);
+                //set grid width
+                gridBorrowBook.setMinWidth(Region.USE_COMPUTED_SIZE);
+                gridBorrowBook.setPrefWidth(Region.USE_COMPUTED_SIZE);
+                gridBorrowBook.setMaxWidth(Region.USE_PREF_SIZE);
+
+                //set grid height
+                gridBorrowBook.setMinHeight(Region.USE_COMPUTED_SIZE);
+                gridBorrowBook.setPrefHeight(Region.USE_COMPUTED_SIZE);
+                gridBorrowBook.setMaxHeight(Region.USE_PREF_SIZE);
+
+                GridPane.setMargin(anchorPane,new Insets(10));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
-    @FXML
-    void BookBorrowSearch(ActionEvent event) {
-        String userID=textFiledBookBorrowSearch.getText();
+
+    void setChosenBorrowBook(BookBorrow bookBorrow){
+        this.bookBorrow=bookBorrow;
+        Book book=null;
         Connection conn=null;
-        BookBorrow bookBorrow=null;
-        List<BookBorrow> list=null;
         try {
             conn=JDBCUtils.getConnection();
-            if(userID.equals("")){
-                list=bookBorrowDAO.getPersonAll(conn,user);
-            }else{
-                bookBorrow=bookBorrowDAO.getPersonBookBorrowById(conn,userID,user);
-            }
-
+            book=bookDAOImpl.getBookById(conn,bookBorrow.getBook_id());
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             JDBCUtils.closeResource(conn,null);
         }
-        if(userID.equals("")){
-            oblist1= FXCollections.observableList(list);
-        }else{
-            oblist1= FXCollections.observableArrayList(bookBorrow);
-        }
-        BookBorrowTable.setItems(oblist1);
+        lblBorrowName.setText(book.getBook_name());
+        lblBookBorrowBorrowTime.setText(bookBorrow.getBorrowTime().toString());
+        lblBookBorrowReturnTime.setText(bookBorrow.getReturnTime().toString());
     }
-
     @FXML
     void ReturnBook(ActionEvent event) {
         Connection conn=null;
-        List<BookBorrow> list=null;
         Book book=new Book();
-        book.setBook_id(BookBorrowTable.getSelectionModel().selectedItemProperty().get().getBook_id());
+        book.setBook_id(bookBorrow.getBook_id());
+        int index=-1;
         try {
             conn=JDBCUtils.getConnection();
-            bookBorrowDAO.delete(conn,BookBorrowTable.getSelectionModel().selectedItemProperty().get().getId());
-
+            bookBorrowDAO.delete(conn,bookBorrow.getId());
+//          库存+1
             int stock=bookDAOImpl.getStock(conn,book.getBook_id())+1;
             book.setBook_stock(stock);
             bookDAOImpl.updateStock(conn,book);
-
-            list=bookBorrowDAO.getPersonAll(conn,user);
+//          状态num+1
+            stateDAOIpml.updataReturnNum(conn,user.getUserID());
+            state=stateDAOIpml.getStateByUserId(conn,user.getUserID());
+            index=1;
         } catch (Exception e) {
             e.printStackTrace();
-            showDialog("提示","还书失败");
+            showDialog("提示","还书失败",btnReturnBook);
         } finally {
             JDBCUtils.closeResource(conn,null);
         }
-        oblist1= FXCollections.observableList(list);
-        BookBorrowTable.setItems(oblist1);
+        if(index==1){
+            showDialog("提示","还书成功",btnReturnBook);
+        }
+        BookBorrowTable();
     }
 
     @FXML
@@ -473,20 +748,18 @@ public class UserMenuController implements Initializable {
             Parent root = loader.load();
             Date date=null;
             BookBorrow bookBorrow=new BookBorrow(
-                    BookBorrowTable.getSelectionModel().selectedItemProperty().get().getId(),
+                    this.bookBorrow.getId(),
                     user.getUserID(),
-                    BookBorrowTable.getSelectionModel().selectedItemProperty().get().getBook_id(),
+                    this.bookBorrow.getBook_id(),
                     date,
                     date
             );
             Book book=new Book();
-            book.setBook_id(BookBorrowTable.getSelectionModel().selectedItemProperty().get().getBook_id());
+            book.setBook_id(this.bookBorrow.getBook_id());
             BookBorrowSelectTimeController controller=loader.getController();
             controller.setUser(bookBorrow);
             controller.setBook(book);
-            controller.setBookBorrowTable(BookBorrowTable);
             controller.setFuntion("Renew");
-            controller.setuserUser(user);
 
             Stage stage=new Stage();
             stage.setScene(new Scene(root));
@@ -494,17 +767,19 @@ public class UserMenuController implements Initializable {
             stage.initStyle(StageStyle.UNDECORATED);
             stage.show();
         } catch (IOException e) {
-            e.printStackTrace();
+                e.printStackTrace();
         }
     }
+
+
 
     //    设置弹窗
     @FXML
     void Mins(ActionEvent event) {
 
     }
-    public void showDialog(String Heading,String Body){
-        JFXAlert alert = new JFXAlert((Stage) btnBookCheckBorrow.getScene().getWindow());
+    public void showDialog(String Heading,String Body,Button btn){
+        JFXAlert alert = new JFXAlert((Stage) btn.getScene().getWindow());
         alert.initModality(Modality.APPLICATION_MODAL);
         alert.setOverlayClose(false);
 

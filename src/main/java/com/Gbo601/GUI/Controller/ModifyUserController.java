@@ -1,6 +1,8 @@
 package com.Gbo601.GUI.Controller;
 
+import com.Gbo601.DAO.State.StateDAOIpml;
 import com.Gbo601.DAO.UserDAO.UserDAOImpl;
+import com.Gbo601.Model.State;
 import com.Gbo601.Model.User;
 import com.Gbo601.Util.JDBCUtils;
 import com.jfoenix.controls.JFXButton;
@@ -22,6 +24,7 @@ import java.util.List;
 public class ModifyUserController {
     private static User user;
     private UserDAOImpl userDAO=new UserDAOImpl();
+    private StateDAOIpml stateDAOIpml=new StateDAOIpml();
     private String funtion;
 
     @FXML
@@ -81,10 +84,10 @@ public class ModifyUserController {
             conn= JDBCUtils.getConnection();
             if(funtion.equals("addUser")){
                 userDAO.insert(conn,user);
+                stateDAOIpml.insert(conn,new State(1,user.getUserID(),8,0,1));
             }else{
                 userDAO.managerUpdate(conn,user);
             }
-
             list=userDAO.getAll(conn);
         } catch (Exception e) {
             e.printStackTrace();

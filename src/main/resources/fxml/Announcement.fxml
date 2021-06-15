@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.String?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.text.TextFlow?>
+
+<AnchorPane prefHeight="253.0" prefWidth="300.0" stylesheets="@../css/styleWonder.css" xmlns="http://javafx.com/javafx/8.0.171" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.Gbo601.GUI.Controller.AnnouncementController">
+   <styleClass>
+      <String fx:value="chosen-fruit-card" />
+      <String fx:value="shadow" />
+   </styleClass>
+   <children>
+      <Label fx:id="lblAnnouncementTime" alignment="CENTER" layoutX="43.0" layoutY="14.0" prefHeight="20.0" prefWidth="216.0" />
+      <TextFlow fx:id="lblAnnouncementText" layoutX="12.0" layoutY="53.0" prefHeight="179.0" prefWidth="279.0" textAlignment="CENTER" />
+   </children>
+</AnchorPane>

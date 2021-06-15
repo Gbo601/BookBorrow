@@ -1,7 +1,5 @@
 package com.Gbo601.Model;
 
-import java.io.FileInputStream;
-
 public class Book {
 	private String book_id;//书编号
 	private String book_name;//书名
@@ -9,9 +7,9 @@ public class Book {
 	private String book_publishHouse;
 	private float book_price;
 	private int book_stock;
-	private FileInputStream book_image;
+	private byte[] book_image;
 
-	public Book(String book_id, String book_name, String book_author, String book_publishHouse, float book_price, int book_stock, FileInputStream book_image) {
+	public Book(String book_id, String book_name, String book_author, String book_publishHouse, float book_price, int book_stock, byte[] book_image) {
 		this.book_id = book_id;
 		this.book_name = book_name;
 		this.book_author = book_author;
@@ -72,11 +70,11 @@ public class Book {
 		this.book_stock = book_stock;
 	}
 
-	public FileInputStream getBook_image() {
+	public byte[] getBook_image() {
 		return book_image;
 	}
 
-	public void setBook_image(FileInputStream book_image) {
+	public void setBook_image(byte[] book_image) {
 		this.book_image = book_image;
 	}
 

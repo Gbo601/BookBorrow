@@ -1,7 +1,6 @@
 package com.Gbo601.Model;
 
 
-import com.alibaba.druid.sql.visitor.functions.Char;
 
 /**
  * @author Gbo601

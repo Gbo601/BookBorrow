@@ -1,5 +1,6 @@
 package com.Gbo601.GUI;
 
+import animatefx.animation.FadeIn;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -21,6 +22,8 @@ public class UserMenuStart extends Application {
         primaryStage.initStyle(StageStyle.UNDECORATED);
         primaryStage.setScene(new Scene(root));
         primaryStage.show();
+
+        new FadeIn(root).play();
     }
     public static void main(String[] args) {
         launch(args);

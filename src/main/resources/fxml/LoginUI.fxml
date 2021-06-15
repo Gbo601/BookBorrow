@@ -19,7 +19,7 @@
                   <Image url="@../image/icons8_literature_104px_1.png" />
                </image>
             </ImageView>
-            <Label layoutX="115.0" layoutY="446.0" text="版权归Gbo601所有" textFill="WHITE" />
+            <Label layoutX="124.0" layoutY="446.0" text="© 2021 GBo601" textFill="WHITE" />
             <Label layoutX="96.0" layoutY="201.0" prefHeight="59.0" prefWidth="170.0" text=" 图书借阅" textFill="WHITE">
                <font>
                   <Font size="36.0" />
